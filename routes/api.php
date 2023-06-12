@@ -38,7 +38,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('user')->middleware('auth:sanctum')->group(function () {
-    Route::put('/create-profile', [\App\Http\Controllers\CreateUserProfileController::class, 'store']);
-    
+    Route::post('/create-profile', [\App\Http\Controllers\UserController::class, 'store']);
+    Route::get('/profile/{id}', [\App\Http\Controllers\UserController::class, 'index']);
     // Other routes within the 'user' group
 });

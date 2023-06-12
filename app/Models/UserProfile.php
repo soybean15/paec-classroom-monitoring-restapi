@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Http\Traits\ImageTrait;
 class UserProfile extends Model
 {
-    use HasFactory;
+    use HasFactory ,ImageTrait;
     protected $fillable = [
         'firstname',
         'lastname',
@@ -19,4 +19,29 @@ class UserProfile extends Model
         'address',
         'user_id',
     ];
+
+    public function userProfile(){
+        return $this->belongTo(User::class);
+    }
+
+    public function getImageAttribute($value){
+        if($value){
+            return asset('images/users/'.$value);
+        }else{
+            return asset('images/defaults/default-user.png');
+        }
+    }
+
+    public function getRawImageAttribute(){
+        if($this->attributes['image']){
+            $path = public_path('images/users/'.$this->attributes['image']);
+
+            if(file_exists($path)){
+                return $path;
+            }
+            return null;
+        }else{
+            return null;
+        }
+    }
 }
