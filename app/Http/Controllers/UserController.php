@@ -11,6 +11,7 @@ class UserController extends Controller
         $user = \App\Models\User::with('userProfile')->find($id);
         return response()->json([
             'user' => $user ,
+            'roles'=>$user->isAdmin()
             
         ]);
 

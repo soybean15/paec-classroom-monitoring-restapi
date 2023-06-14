@@ -46,4 +46,25 @@ class User extends Authenticatable
     public function userProfile(){
         return $this->hasOne(UserProfile::class);
     }
+
+    public function roles(){
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function isAdmin(){
+        foreach($this->roles as $role){
+            if($role->name == 'Admin'){
+                return true;
+            }
+
+        }
+        return false;
+        // $user = auth()->user();
+
+        // if ($user && $user->roles->contains('role', 'Admin')) {
+        //     return true;
+        // }
+    
+        // return false;
+    }
 }

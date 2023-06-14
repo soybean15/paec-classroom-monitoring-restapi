@@ -42,3 +42,8 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::get('/profile/{id}', [\App\Http\Controllers\UserController::class, 'index']);
     // Other routes within the 'user' group
 });
+
+
+Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
+   
+});
