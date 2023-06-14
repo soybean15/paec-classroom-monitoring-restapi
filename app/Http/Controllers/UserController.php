@@ -8,10 +8,10 @@ class UserController extends Controller
 {
     //
     public function index(String $id){
-        $user = \App\Models\User::with('userProfile')->find($id);
+        $user = \App\Models\User::with('userProfile')->with('roles')->find($id);
         return response()->json([
             'user' => $user ,
-            'roles'=>$user->isAdmin()
+           
             
         ]);
 
