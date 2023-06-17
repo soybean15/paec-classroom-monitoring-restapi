@@ -12,7 +12,7 @@ class UserController extends Controller
         return response()->json([
             'user' => $user ,
            
-            
+            'status'=> $user->status()
         ]);
 
     }

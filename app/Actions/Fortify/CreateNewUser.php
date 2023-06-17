@@ -39,9 +39,18 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
         ]);
 
-        
+        //attach role
         $roleId = $input['role'];
         $user->roles()->attach($roleId);
+
+        //add to pending if teacher
+        if($user->isTeacher()){
+           \DB::table('pending_request')->insert([
+                'user_id' =>$user->id,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
 
 
 

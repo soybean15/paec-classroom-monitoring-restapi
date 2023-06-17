@@ -67,4 +67,34 @@ class User extends Authenticatable
     
         // return false;
     }
+
+
+    public function isTeacher(){
+        foreach($this->roles as $role){
+            if($role->name == 'Teacher'){
+                return true;
+            }
+
+        }
+        return false;
+        // $user = auth()->user();
+
+        // if ($user && $user->roles->contains('role', 'Admin')) {
+        //     return true;
+        // }
+    
+        // return false;
+    }
+
+    public function status(){
+        $pendingRequestsCount = \DB::table('pending_request')
+            ->where('user_id', $this->id)
+            ->count();
+
+        if ($pendingRequestsCount > 0) {
+            return 'pending';
+        } else {
+            return 'approved';
+        }
+    }
 }
