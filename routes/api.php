@@ -48,6 +48,7 @@ Route::prefix('admin')->middleware(['auth:sanctum','isAdmin'])->group(function (
    
     Route::get('/', [\App\Http\Controllers\AdminController::class, 'index']);
     Route::get('/users', [\App\Http\Controllers\AdminController::class, 'getUsers']);
+    Route::get('/users/role/{id}', [\App\Http\Controllers\AdminController::class, 'filterByRole']);
 });
 
 Route::get('roles',[\App\Http\Controllers\RoleController::class, 'index']);

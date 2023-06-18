@@ -31,18 +31,43 @@ class AdminController extends Controller
             ->distinct()
             ->get();
 
-        $users = \DB::table('users')
-            ->whereNotIn('id', function ($query) {
+       
+
+        return response()->json([
+            'pendingUsers' => [
+                'users' => $pendingUsers,
+                'count' => $pendingUsers->count()
+            ]
+            
+
+
+        ]);
+    }
+
+    public function filterByRole(string $roleId)
+    {
+
+        $users = \App\Models\User::with('userProfile')
+        ->with('roles')
+        ->whereNotIn('id', function ($query) {
                 $query->select('user_id')
                     ->from('pending_request');
             })
+            ->whereIn('id', function ($query) use ($roleId){
+                $query->select('user_id')
+                    ->from('role_user')
+                    ->where('role_id', $roleId); // Replace $teacherRoleId with the actual ID of the "teacher" role
+            })
             ->distinct()
-            ->get();
+            ->paginate(5);
 
-        return response()->json([
-            'pendingUsers' => $pendingUsers,
-            'users' => $users
 
-        ]);
+
+            return response()->json([
+                'users' => $users
+    
+            ]);
+
+
     }
 }
