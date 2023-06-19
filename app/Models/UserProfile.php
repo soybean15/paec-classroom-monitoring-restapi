@@ -32,6 +32,22 @@ class UserProfile extends Model
         }
     }
 
+    public function getAddressAttribute($value){
+        if($value){
+            return $value;
+        }else{
+            return 'N/A';
+        }
+    }
+
+    public function getContactNumberAttribute($value){
+        if($value){
+            return $value;
+        }else{
+            return '--';
+        }
+    }
+
     public function getRawImageAttribute(){
         if($this->attributes['image']){
             $path = public_path('images/users/'.$this->attributes['image']);
