@@ -46,9 +46,9 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
 
 Route::prefix('admin')->middleware(['auth:sanctum','isAdmin'])->group(function () {
    
-    Route::get('/', [\App\Http\Controllers\AdminController::class, 'index']);
-    Route::get('/users', [\App\Http\Controllers\AdminController::class, 'getUsers']);
-    Route::get('/users/role/{id}', [\App\Http\Controllers\AdminController::class, 'filterByRole']);
+    Route::get('/', [\App\Http\Controllers\Admin\AdminController::class, 'index']);
+    Route::get('/users/pending', [\App\Http\Controllers\Admin\PendingUserRequestController::class, 'index']);
+    Route::get('/users/role/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'filterByRole']);
 });
 
 Route::get('roles',[\App\Http\Controllers\RoleController::class, 'index']);

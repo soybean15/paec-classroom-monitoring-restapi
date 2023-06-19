@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\Controller;
 class AdminController extends Controller
 {
     //
@@ -21,28 +21,6 @@ class AdminController extends Controller
         ]);
     }
 
-    public static function getUsers()
-    {
-        $pendingUsers = \DB::table('users')
-            ->whereIn('id', function ($query) {
-                $query->select('user_id')
-                    ->from('pending_request');
-            })
-            ->distinct()
-            ->get();
-
-       
-
-        return response()->json([
-            'pendingUsers' => [
-                'users' => $pendingUsers,
-                'count' => $pendingUsers->count()
-            ]
-            
-
-
-        ]);
-    }
 
     public function filterByRole(string $roleId)
     {
@@ -70,4 +48,6 @@ class AdminController extends Controller
 
 
     }
+
+
 }
