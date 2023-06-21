@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('student_course_schedules', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('schedule_id');
+            $table->string('section');
             $table->timestamps();
+            
+            // Define foreign key constraints
+            $table->foreign('student_id')->references('id')->on('students');
+            $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('schedule_id')->references('id')->on('schedules');
         });
     }
 

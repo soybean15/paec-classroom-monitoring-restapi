@@ -43,6 +43,17 @@ class CreateNewUser implements CreatesNewUsers
         $roleId = $input['role'];
         $user->roles()->attach($roleId);
 
+        
+        if ($roleId == 2) {
+            // Add user_id to the teacher table
+            $user->teacher()->create([]);
+        } elseif ($roleId == 3) {
+            // Add user_id to the student table
+            $user->student()->create([]);
+        }
+
+    
+
         //add to pending if teacher
         if($user->isTeacher()){
            \DB::table('pending_request')->insert([
