@@ -17,12 +17,12 @@ class CourseFactory extends Factory
     public function definition(): array
     {
         $name = $this->faker->lexify(str_repeat('?', 4));
-    $name = strtoupper($name);
+        $name = strtoupper($name);
 
 
         return [
-            'name'=> $name,
-            'description'=> $this->faker->sentence(10, true)
+            'name' => $name,
+            'description' => $this->faker->sentence(10, true)
         ];
     }
 }

@@ -30,52 +30,23 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
-            'role'=>['required']
+            'role' => ['required']
         ])->validate();
 
-        $user =  User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
 
         //attach role
-        $roleId = $input['role'];
-        $user->roles()->attach($roleId);
-
-        
-        if ($roleId == 2) {
-            // Add user_id to the teacher table
-            $user->teacher()->create([]);
-        } elseif ($roleId == 3) {
-            // Add user_id to the student table
-            $user->student()->create([]);
-        }
-
-    
+        $user->attachRole($input['role']);
 
         //add to pending if teacher
-        if($user->isTeacher()){
-           \DB::table('pending_request')->insert([
-                'user_id' =>$user->id,
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
-        }
-
-
-
-        UserProfile::create([
-            'firstname' => '',
-            'lastname' => '',
-            'middlename' => null,
-            'gender' => null,
-            'birthdate' => null,
-            'contact_number' => null,
-            'image' => null,
-            'address' => null,
-            'user_id' => $user->id,
-        ]);
+        $user->isPending();
+        
+        //create user profile
+        $user->createUserProfile();
         return $user;
     }
 }
