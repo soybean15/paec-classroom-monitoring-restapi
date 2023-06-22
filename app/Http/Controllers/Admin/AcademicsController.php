@@ -11,7 +11,7 @@ class AcademicsController extends Controller
      public function index(){
 
         $subjects = \App\Models\Subject::all();
-
+        $courses =  \App\Models\Course::all();
         $count=0;
         foreach($subjects as $subject){
             
@@ -19,7 +19,13 @@ class AcademicsController extends Controller
             $count++;
         }
 
-        $courses =  \App\Models\Course::all();
+        foreach($courses as $course){
+            
+            $course->image = "https://source.unsplash.com/random/250x150/?college&{$count}";
+            $count++;
+        }
+
+        
 
         return response()->json([
             'subjects' => $subjects,
