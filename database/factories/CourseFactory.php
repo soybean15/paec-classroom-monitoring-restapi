@@ -22,7 +22,8 @@ class CourseFactory extends Factory
 
         return [
             'name' => $name,
-            'description' => $this->faker->sentence(10, true)
+            'description' => $this->faker->sentence(10, true),
+            
         ];
     }
 }

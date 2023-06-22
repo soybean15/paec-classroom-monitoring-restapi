@@ -87,6 +87,17 @@ class User extends Authenticatable  implements MustVerifyEmail
         // return false;
     }
 
+    public function isStudent(){
+        foreach($this->roles as $role){
+            if($role->name == 'Student'){
+                return true;
+            }
+
+        }
+        return false;
+
+    }
+
     public function status(){
         $pendingRequestsCount = \DB::table('pending_request')
             ->where('user_id', $this->id)

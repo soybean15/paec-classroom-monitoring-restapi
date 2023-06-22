@@ -15,8 +15,15 @@ return new class extends Migration
             $table->id();
             $table->timestamp('start')->nullable();
             $table->timestamp('end')->nullable();
+           
             $table->string('day');
+            $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('teacher_id');
+
             $table->timestamps();
+
+            $table->foreign('subject_id')->references('id')->on('subjects');
+            $table->foreign('teacher_id')->references('id')->on('teachers');
         });
     }
 

@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('student_course_schedules', function (Blueprint $table) {
+        Schema::create('student_schedules', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_id');
-            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('sy_id');
             $table->unsignedBigInteger('schedule_id');
             $table->string('section');
             $table->timestamps();
             
             // Define foreign key constraints
             $table->foreign('student_id')->references('id')->on('students');
-            $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('sy_id')->references('id')->on('school_years');
             $table->foreign('schedule_id')->references('id')->on('schedules');
         });
     }

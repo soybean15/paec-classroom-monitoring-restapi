@@ -40,11 +40,12 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         //attach role
-        $user->attachRole($input['role']);
+        $user->roles()->attach($input['role']);
+        $user->attachRoleOnTable(1);
 
         //add to pending if teacher
         $user->isPending();
-        
+
         //create user profile
         $user->createUserProfile();
         return $user;

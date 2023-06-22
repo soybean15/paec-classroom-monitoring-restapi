@@ -30,16 +30,28 @@ trait UserTrait
      }
    }
 
-   public function attachRole($roleId){
-    $this->roles()->attach($roleId);
+   public function attachCourse(){
+    if($this->isStudent()){
+        \DB::table('pending_request')->insert([
+             'user_id' =>$this->id,
+             'created_at' => now(),
+             'updated_at' => now()
+         ]);
+     }
+   }
+
+   public function attachRoleOnTable($courseId){
+ 
 
         
-        if ($roleId == 2) {
+        if ($this->isTeacher()) {
             // Add user_id to the teacher table
             $this->teacher()->create([]);
-        } elseif ($roleId == 3) {
+        } elseif ($this->isStudent()) {
             // Add user_id to the student table
-            $this->student()->create([]);
+            $this->student()->create([
+                'course_id'=> rand($courseId)
+            ]);
         }
 
    }
