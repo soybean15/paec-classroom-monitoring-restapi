@@ -9,6 +9,12 @@ class Subject extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'unit',
+       
+    ];
+
     public function schedules(){
         return $this->hasMany(Schedule::class);
     }

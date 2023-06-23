@@ -53,6 +53,7 @@ Route::prefix('admin')->middleware(['auth:sanctum','isAdmin'])->group(function (
 
     Route::get('/academics/', [\App\Http\Controllers\Admin\AcademicsController::class, 'index']);
     Route::post('/academics/course/add', [\App\Http\Controllers\Admin\AcademicsController::class, 'addCourse']);
+    Route::post('/academics/subject/add', [\App\Http\Controllers\Admin\AcademicsController::class, 'addSubject']);
 });
 
 Route::get('roles',[\App\Http\Controllers\RoleController::class, 'index']);

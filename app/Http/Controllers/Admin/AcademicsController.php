@@ -59,9 +59,30 @@ class AcademicsController extends Controller
             'description' => $request['description']
         ]);
 
+        $course->image = "https://source.unsplash.com/random/250x150/?college";
+
         return response()->json([
             'message' => "New course added",
             'course' => $course
+        ]);
+
+    }
+    public function addSubject(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'unit' => 'required'
+        ]);
+        $subject = \App\Models\Subject::create([
+            'name' => $validatedData['name'],
+            'unit' => $request['unit']
+        ]);
+  
+        $subject->image = "https://source.unsplash.com/random/250x150/?college";
+
+        return response()->json([
+            'message' => "New Subject added",
+            'subject' => $subject
         ]);
 
     }
