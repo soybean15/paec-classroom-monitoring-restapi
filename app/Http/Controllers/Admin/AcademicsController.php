@@ -30,7 +30,10 @@ class AcademicsController extends Controller
 
         return response()->json([
             'subjects' => $subjects,
-            'courses' => $courses
+            'courses' => $courses,
+            'subject_count' => $subjects->count(),
+            'course_count'=>$courses->count()
+            
         ]);
 
     }
