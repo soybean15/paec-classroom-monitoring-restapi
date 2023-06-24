@@ -14,15 +14,12 @@ return new class extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
             $table->timestamp('start')->nullable();
-            $table->timestamp('end')->nullable();
-           
+            $table->timestamp('end')->nullable();       
             $table->string('day');
             $table->unsignedBigInteger('subject_id');
-           
-
             $table->timestamps();
 
-            $table->foreign('subject_id')->references('id')->on('subjects');
+          
            
         });
     }

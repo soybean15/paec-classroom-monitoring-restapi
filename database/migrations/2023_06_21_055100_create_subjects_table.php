@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('unit');
+            $table->bigInteger('year_level_id');
+            $table->bigInteger('semester_id');
+            $table->bigInteger('course_id')->nullable();
             $table->timestamps();
         });
     }
