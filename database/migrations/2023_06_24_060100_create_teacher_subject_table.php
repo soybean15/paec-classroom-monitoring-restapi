@@ -11,19 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('schedules', function (Blueprint $table) {
+        Schema::create('teacher_subject', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('start')->nullable();
-            $table->timestamp('end')->nullable();
-           
-            $table->string('day');
-            $table->unsignedBigInteger('subject_id');
-           
-
+            $table->foreignId('teacher_id')->constrained('teachers');
+            $table->foreignId('subject_id')->constrained('subjects');
             $table->timestamps();
-
-            $table->foreign('subject_id')->references('id')->on('subjects');
-           
         });
     }
 
@@ -32,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('schedules');
+        Schema::dropIfExists('teacher_subject');
     }
 };

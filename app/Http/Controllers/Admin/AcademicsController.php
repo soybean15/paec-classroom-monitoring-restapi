@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 class AcademicsController extends Controller
 {
 
@@ -41,8 +41,19 @@ class AcademicsController extends Controller
     public function getSubjects()
     {
 
+        $subjects = \App\Models\Subject::orderBy('name')->get();
+
+        // $formattedSubjects = $subjects->map(function ($subject) {
+        //     $subject->created_at = Carbon::parse($subject->created_at)->format('F j, Y \a\t h:i A');
+        //     return $subject;
+        // });
+
+        $formattedSubjects = $subjects->map(function ($subject) {
+            $subject->formatted_date = Carbon::parse($subject->created_at)->format('M d, Y');
+            return $subject;
+        });
         return response()->json([
-            'subjects' => 'User ID not found in pending requests'
+            'subjects' =>  $formattedSubjects
         ]);
 
     }

@@ -19,4 +19,9 @@ class Subject extends Model
         return $this->hasMany(Schedule::class);
     }
 
+    public function teacher(){
+        return $this->belongsToMany(Teacher::class);
+    }
+
+
 }
