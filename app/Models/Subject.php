@@ -18,7 +18,7 @@ class Subject extends Model
 
     ];
 
-    protected $attributes = ['image','course_name'];
+    //protected $attributes = ['image','course_name'];
     protected $appends = ['course_name','image'];
 
     public function schedules()
