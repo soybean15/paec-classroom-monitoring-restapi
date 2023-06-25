@@ -18,7 +18,10 @@ class SubjectFactory extends Factory
     {
         return [
             'name'=> $this->faker->jobTitle(),
-            'unit'=>$this->faker->numberBetween(1,4)
+            'unit'=>$this->faker->numberBetween(1,4),
+            'year_level'=>$this->faker->numberBetween(1,4),
+            'semester'=>$this->faker->numberBetween(1,2),
+            'course_id'=>$this->faker->numberBetween(1,4)
         ];
     }
 }
