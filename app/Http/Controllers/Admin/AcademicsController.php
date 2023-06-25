@@ -38,28 +38,8 @@ class AcademicsController extends Controller
 
 
 
-        foreach ($subjects as $subject) { 
-            $subject->course_name = $subject->course_name;
-           
-       
-            switch ($subject->year_level) {
-                case 1: {
-                        $subject->year_level .= "st";
-                        break;
-                    }
-                case 2: {
-                        $subject->year_level .= "nd";
-                        break;
-                    }
-                case 3: {
-                        $subject->year_level .= "rd";
-                        break;
-                    }
-                default:
-                    $subject->year_level = "{$subject->year_level}th";
-                    break;
-            }
-        }
+        
+        
 
         return response()->json([
             'subjects' => $formattedSubjects
