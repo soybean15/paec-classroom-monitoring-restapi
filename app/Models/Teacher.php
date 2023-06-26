@@ -9,6 +9,11 @@ class Teacher extends Model
 {
     use HasFactory;
 
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function schedules(){
         return $this->hasMany(Schedule::class);
     }
@@ -23,6 +28,13 @@ class Teacher extends Model
     }
 
     public function subjects(){
-        return $this->belongsToMany(Subject::class);
+        return $this->belongsToMany(Subject::class, 'teacher_subject');
+      
+        
+    }
+
+    public function scopeCurrentSubjects( $query): void
+    {
+        $query->where('votes', '>', 100);
     }
 }
