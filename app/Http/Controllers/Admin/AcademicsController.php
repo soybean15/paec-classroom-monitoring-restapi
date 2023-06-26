@@ -26,10 +26,19 @@ class AcademicsController extends Controller
 
     }
 
-    public function getSubjects()
-    {
+    public function getSubjects($courseId)
 
-        $subjects = \App\Models\Subject::orderBy('name')->get();
+
+    {
+        $subjects= null;
+        if($courseId == -1){
+            $subjects = \App\Models\Subject::orderBy('name')->get();
+        }else{
+             $subjects = \App\Models\Subject::subjectByCourse($courseId)->get();
+            //$subjects = "Hello";
+        }
+
+       
 
         $formattedSubjects = $subjects->map(function ($subject) {
             $subject->formatted_date = Carbon::parse($subject->created_at)->format('M d, Y');
@@ -42,7 +51,8 @@ class AcademicsController extends Controller
         
 
         return response()->json([
-            'subjects' => $formattedSubjects
+            'subjects' => $formattedSubjects,
+            'course_id'=>$courseId
         ]);
 
     }

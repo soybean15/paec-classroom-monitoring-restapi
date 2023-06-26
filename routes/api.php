@@ -46,15 +46,18 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
 
 Route::prefix('admin')->middleware(['auth:sanctum','isAdmin'])->group(function () {
    
+
+    Route::get('/settings', [\App\Http\Controllers\Admin\AdminController::class, 'getSettings']);
     Route::get('/', [\App\Http\Controllers\Admin\AdminController::class, 'index']);
     Route::get('/users/pending', [\App\Http\Controllers\Admin\PendingUserRequestController::class, 'index']);
     Route::get('/users/role/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'filterByRole']);
     Route::post('/users/pending/{id}', [\App\Http\Controllers\Admin\PendingUserRequestController::class, 'acceptUser']);
+    Route::post('/users/teacher/{id}/subjects', [\App\Http\Controllers\Admin\TeacherController::class, 'addSubjects']);
 
     Route::get('/academics/', [\App\Http\Controllers\Admin\AcademicsController::class, 'index']);
     Route::post('/academics/course/add', [\App\Http\Controllers\Admin\AcademicsController::class, 'addCourse']);
     Route::post('/academics/subject/add', [\App\Http\Controllers\Admin\AcademicsController::class, 'addSubject']);
-    Route::get('/academics/subject/', [\App\Http\Controllers\Admin\AcademicsController::class, 'getSubjects']);
+    Route::get('/academics/subject/{id}', [\App\Http\Controllers\Admin\AcademicsController::class, 'getSubjects']);
     Route::get('/academics/course/', [\App\Http\Controllers\Admin\AcademicsController::class, 'getCourses']);
 });
 

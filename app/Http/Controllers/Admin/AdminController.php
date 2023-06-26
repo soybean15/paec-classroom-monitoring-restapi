@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
 class AdminController extends Controller
 {
     //
@@ -26,12 +27,12 @@ class AdminController extends Controller
     {
 
         $users = \App\Models\User::with('userProfile')
-        ->with('roles')
-        ->whereNotIn('id', function ($query) {
+            ->with('roles')
+            ->whereNotIn('id', function ($query) {
                 $query->select('user_id')
                     ->from('pending_request');
             })
-            ->whereIn('id', function ($query) use ($roleId){
+            ->whereIn('id', function ($query) use ($roleId) {
                 $query->select('user_id')
                     ->from('role_user')
                     ->where('role_id', $roleId); // Replace $teacherRoleId with the actual ID of the "teacher" role
@@ -41,11 +42,32 @@ class AdminController extends Controller
 
 
 
-            return response()->json([
-                'users' => $users
-    
-            ]);
+        return response()->json([
+            'users' => $users
 
+        ]);
+
+
+    }
+
+    public function getSettings()
+    {
+
+        $settings = \DB::table('settings')->get();
+        $schoolYearId = $settings[0]->school_year_id;
+        $schoolYear = \App\Models\SchoolYear::find($schoolYearId);
+
+        if ($schoolYear) {
+            // School year found
+            $settings[0]->school_year = $schoolYear->school_year;
+            // Do something with the school year value
+        } else {
+           $settings[0]->school_year = "N/A";
+        }
+
+        return response()->json([
+            'settings' => $settings
+        ]);
 
     }
 

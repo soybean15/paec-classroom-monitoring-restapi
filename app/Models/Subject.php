@@ -19,7 +19,7 @@ class Subject extends Model
     ];
 
     //protected $attributes = ['image','course_name'];
-    protected $appends = ['course_name','image'];
+    protected $appends = ['course_name', 'image'];
 
     public function schedules()
     {
@@ -29,6 +29,11 @@ class Subject extends Model
     public function teacher()
     {
         return $this->belongsToMany(Teacher::class);
+    }
+
+    public function schoolYear()
+    {
+        return $this->belongsTo(SchoolYear::class);
     }
 
     public function course()
@@ -82,11 +87,20 @@ class Subject extends Model
 
     }
 
-    public function getImageAttribute(){
+    public function getImageAttribute()
+    {
         return "https://source.unsplash.com/random/250x150/?books&{$this->id}";
 
     }
-    
-    
+
+    public function scopeSubjectByCourse($query, $courseId)
+    {
+
+        return $query->where(function ($query) use ($courseId) {
+            $query->where('course_id', $courseId)
+                ->orWhereNull('course_id');
+        });
+    }
+
 
 }
