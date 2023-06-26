@@ -15,7 +15,7 @@ class Course extends Model
        
     ];
 
-   // protected $attributes = ['image'];
+
     protected $appends = ['image'];
 
     public function getImageAttribute(){

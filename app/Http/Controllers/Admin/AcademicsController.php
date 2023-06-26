@@ -89,8 +89,7 @@ class AcademicsController extends Controller
             'course_id'=>$request['course_id']
         ]);
 
-        $subject->image = "https://source.unsplash.com/random/250x150/?college";
-        $subject->course_name = $subject->course_name;
+     
         return response()->json([
             'message' => "New Subject added",
             'subject' => $subject
