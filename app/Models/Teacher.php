@@ -49,10 +49,24 @@ class Teacher extends Model
                     ->where('subject_teacher.teacher_id', '=', $teacherId);
             })
             ->select('subjects.*')
-            ->whereNull('subject_teacher.subject_id');
-            
+            ->whereNull('subject_teacher.subject_id');          
       
     }
+
+    public function teacherSubjects($schoolYearId, $semester)
+    {
+        $teacherId = $this->id;
+    
+        return \DB::table('subjects')
+            ->join('subject_teacher', function ($join) use ($teacherId, $semester, $schoolYearId) {
+                $join->on('subject_teacher.subject_id', '=', 'subjects.id')
+                    ->where('subject_teacher.semester', '=', $semester)
+                    ->where('subject_teacher.school_year_id', '=', $schoolYearId)
+                    ->where('subject_teacher.teacher_id', '=', $teacherId);
+            })
+            ->select('subjects.*');
+    }
+    
 
 
 

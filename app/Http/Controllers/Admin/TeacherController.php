@@ -38,9 +38,9 @@ class TeacherController extends Controller
         $teacher = \App\Models\Teacher::where('user_id', $userId)->first();
 
 
-    //     $schoolYearId = $request->settings['school_year_id'];
-    //     $teacherId = $request->input('user_id');
-    //     $semester = $request->settings['semester'];
+        $schoolYearId = $request->settings['school_year_id'];
+        $teacherId = $request->input('user_id');
+        $semester = $request->settings['semester'];
 
     // $subjects = \App\Models\Subject::whereHas('teacher_subject', function ($query) use ($schoolYearId, $teacherId, $semester) {
     //     $query->where('school_year_id', $schoolYearId)
@@ -48,10 +48,12 @@ class TeacherController extends Controller
     //         ->where('semester', $semester);
     // })->get();
 
+     $subjects = $teacher->teacherSubjects($schoolYearId,$semester)->get();
+
 
 
         return response()->json([
-            'subjects'=>$teacher->subjects,
+            'subjects'=>$subjects,
             'user'=> $teacher->user
 
            
