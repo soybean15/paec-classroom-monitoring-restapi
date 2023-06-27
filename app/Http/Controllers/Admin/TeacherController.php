@@ -13,7 +13,7 @@ class TeacherController extends Controller
 
         $subjects = [];
         foreach ($request->subjects as $subject) {
-            \DB::table('teacher_subject')->insert([
+            \DB::table('subject_teacher')->insert([
                 'subject_id' => $subject['id'],
                 'teacher_id' => $id,
                 'school_year_id' => $request->settings['school_year_id'],
@@ -34,8 +34,8 @@ class TeacherController extends Controller
     }
 
     public function getTeacherSubjects(Request $request){
-
-        $teacher = \App\Models\Teacher::find($request->input('user_id'));
+        $userId = $request->input('user_id');
+        $teacher = \App\Models\Teacher::where('user_id', $userId)->first();
 
 
     //     $schoolYearId = $request->settings['school_year_id'];
@@ -52,7 +52,7 @@ class TeacherController extends Controller
 
         return response()->json([
             'subjects'=>$teacher->subjects,
-            'id'=> $request->input('user_id')
+            'user'=> $teacher->user
 
            
         ]);

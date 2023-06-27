@@ -14,7 +14,7 @@ class AcademicsController extends Controller
 
         $subjects = \App\Models\Subject::all();
         $courses = \App\Models\Course::all();
-     
+
 
         return response()->json([
             'subjects' => $subjects,
@@ -26,18 +26,24 @@ class AcademicsController extends Controller
 
     }
 
-    public function getSubjects($courseId)
-
-
+    public function getSubjects($courseId, Request $request)
     {
-        $subjects= null;
-        if($courseId == -1){
-            $subjects = \App\Models\Subject::orderBy('name')->get();
-        }else{
-             $subjects = \App\Models\Subject::subjectByCourse($courseId)->get();
-            //$subjects = "Hello";
+        $subjects = null;
+
+        $teacher = \App\Models\Teacher::where('user_id', $request->input('user_id'))->first();
+
+        $schoolYearId = $request->settings['school_year_id'];
+     
+        $semester = $request->settings['semester'];
+
+        if ($courseId == -1) {
+            $subjects = $teacher->availableSubjects($schoolYearId, $semester)->get();
+        } else {
+            $subjects =  $teacher->availableSubjects($schoolYearId, $semester)->where('subjects.course_id','=', $courseId)->get();
+          
         }
 
+   
         $formattedSubjects = $subjects->map(function ($subject) {
             $subject->formatted_date = Carbon::parse($subject->created_at)->format('M d, Y');
             return $subject;
@@ -45,13 +51,12 @@ class AcademicsController extends Controller
 
 
 
-        
-        
-
         return response()->json([
-            'subjects' => $formattedSubjects,
-            'course_id'=>$courseId
+            'subjects' => $formattedSubjects
+
+
         ]);
+        
 
     }
 
@@ -86,18 +91,18 @@ class AcademicsController extends Controller
         $validatedData = $request->validate([
             'name' => 'required',
             'unit' => 'required',
-            'year_level'=>'required',
-            'semester'=> 'required'
+            'year_level' => 'required',
+            'semester' => 'required'
         ]);
         $subject = \App\Models\Subject::create([
             'name' => $validatedData['name'],
             'unit' => $validatedData['unit'],
-            'year_level'=>$validatedData['year_level'],
-            'semester'=>$validatedData['semester'],
-            'course_id'=>$request['course_id']
+            'year_level' => $validatedData['year_level'],
+            'semester' => $validatedData['semester'],
+            'course_id' => $request['course_id']
         ]);
 
-     
+
         return response()->json([
             'message' => "New Subject added",
             'subject' => $subject

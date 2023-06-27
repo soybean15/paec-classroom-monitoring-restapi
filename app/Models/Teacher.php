@@ -18,7 +18,8 @@ class Teacher extends Model
     }
 
 
-    public function schedules(){
+    public function schedules()
+    {
         return $this->hasMany(Schedule::class);
     }
 
@@ -31,14 +32,37 @@ class Teacher extends Model
         return $this->hasManyThrough(Student::class, Schedule::class);
     }
 
-    public function subjects(){
-        return $this->belongsToMany(Subject::class, 'teacher_subject');
-      
-        
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class);
+
     }
 
-    public function scopeCurrentSubjects( $query): void
+    public function availableSubjects( $schoolYearId, $semester)
+    {
+        $teacherId = $this->id;
+        return \DB::table('subjects')
+            ->leftJoin('subject_teacher', function ($join) use ($teacherId, $semester, $schoolYearId) {
+                $join->on('subject_teacher.subject_id', '=', 'subjects.id')
+                    ->where('subject_teacher.semester', '=', $semester)
+                    ->where('subject_teacher.school_year_id', '=', $schoolYearId)
+                    ->where('subject_teacher.teacher_id', '=', $teacherId);
+            })
+            ->select('subjects.*')
+            ->whereNull('subject_teacher.subject_id');
+            
+      
+    }
+
+
+
+
+
+    public function scopeCurrentSubjects($query): void
     {
         $query->where('votes', '>', 100);
     }
+
+
+
 }
