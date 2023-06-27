@@ -11,18 +11,23 @@ class TeacherController extends Controller
 
     public function addSubjects(Request $request, $id){
 
-        foreach($request->subjects as $subject){
+        $subjects = [];
+        foreach ($request->subjects as $subject) {
             \DB::table('teacher_subject')->insert([
                 'subject_id' => $subject['id'],
-                'teacher_id'=>$id,
-                'school_year_id'=>$request->settings['school_year_id'],
-                'semester'=>$request->settings['semester'],
+                'teacher_id' => $id,
+                'school_year_id' => $request->settings['school_year_id'],
+                'semester' => $request->settings['semester'],
             ]);
-
+        
+            $subject = \App\Models\Subject::find($subject['id']);
+            $subjects[] = $subject;
         }
+        
 
         return response()->json([
-            'message'=>"Subject(s) added "
+            'message'=>"Subject(s) added ",
+            'subjects'=>$subjects
            
         ]);
     
@@ -30,7 +35,7 @@ class TeacherController extends Controller
 
     public function getTeacherSubjects(Request $request){
 
-        $teacher = \App\Models\Teacher::find( $request->input('user_id'));
+        $teacher = \App\Models\Teacher::find($request->input('user_id'));
 
 
     //     $schoolYearId = $request->settings['school_year_id'];
@@ -46,8 +51,9 @@ class TeacherController extends Controller
 
 
         return response()->json([
-            'teacher'=>$teacher->subjects,
-            'request'=>$request->settings
+            'subjects'=>$teacher->subjects,
+            'id'=> $request->input('user_id')
+
            
         ]);
 

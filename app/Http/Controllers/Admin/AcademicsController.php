@@ -38,8 +38,6 @@ class AcademicsController extends Controller
             //$subjects = "Hello";
         }
 
-       
-
         $formattedSubjects = $subjects->map(function ($subject) {
             $subject->formatted_date = Carbon::parse($subject->created_at)->format('M d, Y');
             return $subject;
