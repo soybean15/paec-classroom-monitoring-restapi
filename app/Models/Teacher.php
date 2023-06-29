@@ -55,7 +55,8 @@ class Teacher extends Model
 
     public function teacherSubjects($schoolYearId, $semester)
     {
-        $teacherId = $this->id;
+        $teacherId = $this->user_id;
+       
     
         return \DB::table('subjects')
             ->join('subject_teacher', function ($join) use ($teacherId, $semester, $schoolYearId) {
@@ -64,7 +65,8 @@ class Teacher extends Model
                     ->where('subject_teacher.school_year_id', '=', $schoolYearId)
                     ->where('subject_teacher.teacher_id', '=', $teacherId);
             })
-            ->select('subjects.*');
+            ->join('courses', 'courses.id', '=', 'subjects.id') 
+            ->select('subjects.*', 'subject_teacher.id as pivot_id','courses.name as course_name');
     }
     
 

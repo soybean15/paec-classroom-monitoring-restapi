@@ -66,10 +66,12 @@ class AdminController extends Controller
         }
 
         return response()->json([
-            'settings' => $settings
+            'settings' => $settings,
+            'rooms' => \App\Models\Room::all()
         ]);
 
     }
 
+   
 
 }
