@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamp('start')->nullable();
             $table->timestamp('end')->nullable();       
             $table->string('day');
-            $table->foreignId('student_subject_schedule_id')->constrained('student_subject_schedules');
+            $table->foreignId('subject_teacher_id')->constrained('subject_teacher');
             $table->timestamps();
 
           

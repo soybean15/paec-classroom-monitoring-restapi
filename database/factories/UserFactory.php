@@ -59,11 +59,7 @@ class UserFactory extends Factory
                 $user->roles()->attach($roleId);
                 if ($roleId === 2) {
                     $user->teacher()->create([]);
-                } elseif ($roleId === 3) {
-                    $user->student()->create([
-                        'course_id'=>rand(1,4)
-                    ]);
-                }
+                } 
             }
 
            

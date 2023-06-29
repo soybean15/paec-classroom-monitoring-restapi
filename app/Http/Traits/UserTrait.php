@@ -47,12 +47,7 @@ trait UserTrait
         if ($this->isTeacher()) {
             // Add user_id to the teacher table
             $this->teacher()->create([]);
-        } elseif ($this->isStudent()) {
-            // Add user_id to the student table
-            $this->student()->create([
-                'course_id'=> rand($courseId)
-            ]);
-        }
+        } 
 
    }
 
