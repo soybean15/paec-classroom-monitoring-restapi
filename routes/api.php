@@ -54,6 +54,11 @@ Route::prefix('admin')->middleware(['auth:sanctum','isAdmin'])->group(function (
     Route::post('/users/pending/{id}', [\App\Http\Controllers\Admin\PendingUserRequestController::class, 'acceptUser']);
     Route::post('/users/teacher/{id}/subjects', [\App\Http\Controllers\Admin\TeacherController::class, 'addSubjects']);
     Route::get('/users/teacher/subjects', [\App\Http\Controllers\Admin\TeacherController::class, 'getTeacherSubjects']);
+    Route::post('/users/teacher/schedule/add', [\App\Http\Controllers\Admin\ScheduleController::class, 'addSchedule']);
+    Route::get('/users/teacher/schedule/{id}', [\App\Http\Controllers\Admin\ScheduleController::class, 'getSchedule']);
+
+
+
 
     Route::get('/academics/', [\App\Http\Controllers\Admin\AcademicsController::class, 'index']);
     Route::post('/academics/course/add', [\App\Http\Controllers\Admin\AcademicsController::class, 'addCourse']);

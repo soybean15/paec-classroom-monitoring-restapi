@@ -9,9 +9,14 @@ class Schedule extends Model
 {
     use HasFactory;
 
-    public function section(){
-        return $this->hasOne(Section::class);
-    }
+    protected $fillable = [
+        'start', 
+        'end', 
+        'day', 
+        'room_id', 
+        'section',
+       'subject_teacher_id'
+    ];
 
 
 }

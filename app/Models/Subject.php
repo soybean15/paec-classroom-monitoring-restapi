@@ -55,22 +55,22 @@ class Subject extends Model
         return $course ? $course->name : 'General Education';
     }
 
-    public function getYearLevelAttribute($value)
-    {
+    // public function getYearLevelAttribute($value)
+    // {
 
-        switch ($value) {
-            case 1:
-                return "{$value}st";
-            case 2:
-                return "{$value}nd";
-            case 3:
-                return "{$value}rd";
-            default:
-                return "{$value}th";
-        }
+    //     switch ($value) {
+    //         case 1:
+    //             return "{$value}st";
+    //         case 2:
+    //             return "{$value}nd";
+    //         case 3:
+    //             return "{$value}rd";
+    //         default:
+    //             return "{$value}th";
+    //     }
 
 
-    }
+    // }
 
     public function getSemesterAttribute($value)
     {
