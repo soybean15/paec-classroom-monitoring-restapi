@@ -21,26 +21,27 @@ class ScheduleController extends Controller
         $start = $request['start'];
         $end = $request['end'];
         $day = $request['day'];
+        $user_id = $request['user_id'];
 
-        $conflictingSchedules = \DB::table('schedules')
-            ->where(function ($query) use ($start, $end,$day) {
+        $teacher = \App\Models\Teacher::where('user_id',$user_id)->first();
 
-                $query->where('end', '>', $start)
-                    ->where('start', '<', $end)
-                       ->where('day', $day);
-
-            })->where('subject_teacher_id', $request['subject_teacher_id'])
-            ->get();
-
-        if (!$conflictingSchedules->isEmpty()) {
+        return response()->json([
+            'schedule'=>$teacher->schedules
+        ]);
+      
+        if($teacher->hasConflictingTime($start,$end,$day)){
             return new JsonResponse([
                 'errors' => [
                     'start'=>['Schedule Conflict']
-                ]
+                ],
+                'schedule'=>$teacher->schedules
+            
             ], 422);
+
         }
-
-
+       
+        
+           
 
 
 

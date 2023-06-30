@@ -20,13 +20,39 @@ class Teacher extends Model
 
     public function schedules()
     {
-        return $this->hasMany(Schedule::class);
+        $setting = \DB::table('settings')->get();
+
+        return $this->hasMany(Schedule::class, 'subject_teacher_id')
+            ->join('subject_teacher', 'schedules.subject_teacher_id', '=', 'subject_teacher.id')
+            ->leftJoin('rooms', 'schedules.room_id', '=', 'rooms.id')
+            ->select('schedules.*', 'subject_teacher.school_year_id', 'subject_teacher.semester')
+            ->where('subject_teacher.teacher_id', $this->user_id);
     }
 
-    public function sections()
+
+    public function hasConflictingTime($start, $end, $day)
     {
-        return $this->hasManyThrough(Section::class, Schedule::class);
+
+        return $this->schedules()
+            ->where('day', $day)
+            ->where(function ($query) use ($start, $end, $day) {
+                $query->where(function ($innerQuery) use ($start, $end, $day) {
+                    $innerQuery->where('day', $day)
+                        ->where('start', '<', $end)
+                        ->where('end', '>', $start);
+                })->orWhere(function ($innerQuery) use ($start, $end, $day) {
+                    $innerQuery->where('day', $day)
+                        ->where('start', '<=', $start)
+                        ->where('end', '>=', $end);
+                });
+            })
+            ->exists();
+
+
+
     }
+
+
     public function students()
     {
         return $this->hasManyThrough(Student::class, Schedule::class);
@@ -38,7 +64,7 @@ class Teacher extends Model
 
     }
 
-    public function availableSubjects( $schoolYearId, $semester)
+    public function availableSubjects($schoolYearId, $semester)
     {
         $teacherId = $this->id;
         return \DB::table('subjects')
@@ -49,15 +75,15 @@ class Teacher extends Model
                     ->where('subject_teacher.teacher_id', '=', $teacherId);
             })
             ->select('subjects.*')
-            ->whereNull('subject_teacher.subject_id');          
-      
+            ->whereNull('subject_teacher.subject_id');
+
     }
 
     public function teacherSubjects($schoolYearId, $semester)
     {
         $teacherId = $this->user_id;
-       
-    
+
+
         return \DB::table('subjects')
             ->join('subject_teacher', function ($join) use ($teacherId, $semester, $schoolYearId) {
                 $join->on('subject_teacher.subject_id', '=', 'subjects.id')
@@ -65,10 +91,10 @@ class Teacher extends Model
                     ->where('subject_teacher.school_year_id', '=', $schoolYearId)
                     ->where('subject_teacher.teacher_id', '=', $teacherId);
             })
-            ->join('courses', 'courses.id', '=', 'subjects.id') 
-            ->select('subjects.*', 'subject_teacher.id as pivot_id','courses.name as course_name');
+            ->join('courses', 'courses.id', '=', 'subjects.id')
+            ->select('subjects.*', 'subject_teacher.id as pivot_id', 'courses.name as course_name');
     }
-    
+
 
 
 
