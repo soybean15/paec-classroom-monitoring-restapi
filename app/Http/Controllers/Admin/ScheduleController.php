@@ -25,16 +25,16 @@ class ScheduleController extends Controller
 
         $teacher = \App\Models\Teacher::where('user_id',$user_id)->first();
 
-        return response()->json([
-            'schedule'=>$teacher->schedules
-        ]);
+        // return response()->json([
+        //     'schedule'=>$teacher->schedules
+        // ]);
       
         if($teacher->hasConflictingTime($start,$end,$day)){
             return new JsonResponse([
                 'errors' => [
                     'start'=>['Schedule Conflict']
                 ],
-                'schedule'=>$teacher->schedules
+              
             
             ], 422);
 
