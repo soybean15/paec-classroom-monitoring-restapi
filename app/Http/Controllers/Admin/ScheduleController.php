@@ -11,11 +11,10 @@ class ScheduleController extends Controller
 
     public function addSchedule(Request $request){
 
-        $start = date('Y-m-d') . ' ' . $request['start'];
-        $end = date('Y-m-d') . ' ' . $request['end'];
+
         $schedule = \App\Models\Schedule::create([
-            'start'=>$start,
-            'end'=>$end,
+            'start'=>$request['start'],
+            'end'=> $request['end'],
             'day'=>$request['day'],
             'room_id'=>$request['room'],
             'section'=> $request['prefix'] . $request['section'],
@@ -23,7 +22,7 @@ class ScheduleController extends Controller
 
         ]);
         return response()->json([
-            'request'=>$request->all()
+            'request'=>$schedule
         ]);
 
     }
@@ -34,7 +33,7 @@ class ScheduleController extends Controller
 
         return response()->json([
             'schedules'=>$schedules,
-            'id'=>$id
+         
         ]);
     }
 }

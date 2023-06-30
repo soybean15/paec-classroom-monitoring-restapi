@@ -45,10 +45,17 @@ class TeacherController extends Controller
         $schoolYearId = $request->settings['school_year_id'];
         $semester = $request->settings['semester'];
 
+      
+
+
 
         $subjects = $teacher->teacherSubjects($schoolYearId, $semester)->get();
-
-
+        
+        $subjects = $subjects->map(function ($subject) {
+            $schedules = \App\Models\Schedule::where('subject_teacher_id', $subject->pivot_id)->get();
+            $subject->schedules = $schedules;
+            return $subject;
+        });
 
         return response()->json([
             'subjects' => $subjects,
