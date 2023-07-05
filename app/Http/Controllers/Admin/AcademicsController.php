@@ -91,12 +91,14 @@ class AcademicsController extends Controller
         $validatedData = $request->validate([
             'name' => 'required',
             'unit' => 'required',
+            'code' =>'required',
             'year_level' => 'required',
             'semester' => 'required'
         ]);
         $subject = \App\Models\Subject::create([
             'name' => $validatedData['name'],
             'unit' => $validatedData['unit'],
+            'code' => $validatedData['code'],
             'year_level' => $validatedData['year_level'],
             'semester' => $validatedData['semester'],
             'course_id' => $request['course_id']

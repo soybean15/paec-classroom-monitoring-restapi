@@ -22,11 +22,16 @@ class Teacher extends Model
     {
         $setting = \DB::table('settings')->get();
 
-        return $this->hasMany(Schedule::class, 'subject_teacher_id')
-            ->join('subject_teacher', 'schedules.subject_teacher_id', '=', 'subject_teacher.id')
-            ->leftJoin('rooms', 'schedules.room_id', '=', 'rooms.id')
-            ->select('schedules.*', 'subject_teacher.school_year_id', 'subject_teacher.semester')
-            ->where('subject_teacher.teacher_id', $this->user_id);
+        return \DB::table('schedules')
+        ->join('subject_teacher', 'schedules.subject_teacher_id', '=', 'subject_teacher.id')
+        ->select('schedules.*')
+        ->where('subject_teacher.teacher_id', $this->user_id)
+        ->where('subject_teacher.semester', 1)
+        ->where('subject_teacher.school_year_id', 1)
+        ;
+    
+   
+
     }
 
 

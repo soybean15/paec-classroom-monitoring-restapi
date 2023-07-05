@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('code');
             $table->integer('unit'); 
             $table->bigInteger('year_level')->nullable();
             $table->bigInteger('semester')->nullable();

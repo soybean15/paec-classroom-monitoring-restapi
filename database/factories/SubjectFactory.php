@@ -16,8 +16,12 @@ class SubjectFactory extends Factory
      */
     public function definition(): array
     {
+        $code = $this->faker->lexify(str_repeat('?', 4));
+        $code= strtoupper($code);
+
         return [
             'name'=> $this->faker->jobTitle(),
+            'code'=>$code,
             'unit'=>$this->faker->numberBetween(1,4),
             'year_level'=>$this->faker->numberBetween(1,4),
             'semester'=>$this->faker->numberBetween(1,2),

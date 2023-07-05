@@ -28,6 +28,11 @@ class ScheduleController extends Controller
         // return response()->json([
         //     'schedule'=>$teacher->schedules
         // ]);
+
+        // return response()->json([
+        //     'techer'=>$teacher,
+        //     'schedules' => $teacher->schedules()
+        // ]);
       
         if($teacher->hasConflictingTime($start,$end,$day)){
             return new JsonResponse([
