@@ -110,6 +110,13 @@ class Teacher extends Model
         $query->where('votes', '>', 100);
     }
 
+    public function classes(){
+
+        $classes = $this->subjects->get();
+
+        return $classes;
+    }
+
 
 
 }

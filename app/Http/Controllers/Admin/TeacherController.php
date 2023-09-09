@@ -62,4 +62,34 @@ class TeacherController extends Controller
         ]);
 
     }
+
+    public function getClasses(Request $request){
+
+        $userId = $request->input('user_id');
+        $teacher = \App\Models\Teacher::where('user_id', $userId)->first();
+
+        $settings = \DB::table('settings')->get();
+
+        $schoolYearId = $settings[0]->school_year_id;
+        $semester = $settings[0]->semester;
+
+        $subjects = $teacher->teacherSubjects($schoolYearId, $semester)->get();
+
+
+        $schedules=[];
+       foreach($subjects as $subject){
+            $schedules[]=\App\Models\Schedule::where('subject_teacher_id', $subject->pivot_id)->get();
+       }
+
+
+        
+
+
+       // $teacher->load(['classes']);
+        return response()->json([
+            'classes'=>$subjects,
+            'schedules'=>$schedules
+        ]);
+
+    }
 }

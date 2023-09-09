@@ -18,6 +18,8 @@ class Schedule extends Model
         'subject_teacher_id'
     ];
 
+
+
     public function getDayAttribute($value)
     {
        
@@ -44,6 +46,13 @@ class Schedule extends Model
     public function room(){
         return $this->belongsTo(Room::class);
     }
+
+    public function classes($subject_teacher_id){
+        return $this->where('subject_teacer_id', $subject_teacher_id)->get();
+
+
+    }
+
 
 
 }
