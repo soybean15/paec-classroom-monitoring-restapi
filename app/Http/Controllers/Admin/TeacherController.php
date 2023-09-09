@@ -76,9 +76,18 @@ class TeacherController extends Controller
         $subjects = $teacher->teacherSubjects($schoolYearId, $semester)->get();
 
 
-        $schedules=[];
+        $schedules=[
+           
+        ];
+        
        foreach($subjects as $subject){
-            $schedules[]=\App\Models\Schedule::where('subject_teacher_id', $subject->pivot_id)->get();
+
+            $_schedules=\App\Models\Schedule::where('subject_teacher_id', $subject->pivot_id)->get();
+
+            foreach($_schedules as $schedule){
+                $schedules[$schedule->day][] = $schedule;
+            }
+
        }
 
 
